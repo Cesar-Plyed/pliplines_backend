@@ -1,2 +1,3 @@
 #Devloper variables
 .env
+node_modules/
