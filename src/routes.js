@@ -1,4 +1,4 @@
-import { pool } from "./db.js";
+import { query } from "./db.js";
 import express from "express";
 import multer from "multer";
 import NodeCache from "node-cache";
@@ -21,8 +21,8 @@ export const getData = async () => {
       const drinksSql = "SELECT * FROM drinks";
       const foodsSql = "SELECT * FROM food";
 
-      const [resultDR] = await pool.query(drinksSql);
-      const [resultFD] = await pool.query(foodsSql);
+      const [resultDR] = await query(drinksSql);
+      const [resultFD] = await query(foodsSql);
 
       const data = { resultDR, resultFD };
       cache.set(cacheKey, data);
@@ -55,7 +55,7 @@ export const create = async () => {
 
     try {
       const sql = `INSERT INTO ${table} (name, price, description, image) VALUES (?, ?, ?, ?)`;
-      const [result] = await pool.query(sql, [name, price, description, image]);
+      const [result] = await query(sql, [name, price, description, image]);
 
       // Invalidate cache after creating a new item
       cache.del("menuData");
