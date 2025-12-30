@@ -20,11 +20,11 @@
     "dev": "nodemon src/index.js"
   },
   "dependencies": {
+    "better-sqlite3": "^12.5.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "multer": "^2.0.2",
-    "better-sqlite3": "^11.7.0",
     "node-cache": "^5.1.2",
     "nodemon": "^3.1.9"
   }
