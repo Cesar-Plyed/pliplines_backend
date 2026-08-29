@@ -2,7 +2,7 @@
 
 Backend API para gestión de menú de comida y bebidas, desarrollado con Express.js y SQLite.
 
-## 🚀 Características
+## Características
 
 - API RESTful para gestión de menú
 - Base de datos SQLite (sin necesidad de servidor de base de datos)
@@ -10,12 +10,12 @@ Backend API para gestión de menú de comida y bebidas, desarrollado con Express
 - Soporte para subida de imágenes
 - CORS habilitado
 
-## 📋 Requisitos Previos
+## Requisitos Previos
 
 - Node.js (versión 14 o superior)
 - npm o pnpm
 
-## 🔧 Instalación
+## Instalación
 
 1. Clona el repositorio:
 ```bash
@@ -28,7 +28,7 @@ cd pliplines_backend
 npm install
 ```
 
-## ⚙️ Configuración
+## Configuración
 
 ### Base de Datos SQLite
 
@@ -51,7 +51,7 @@ DB_PATH=./database.sqlite
 
 > **Nota**: Si no especificas `DB_PATH`, la base de datos se creará automáticamente en `database.sqlite` en la raíz del proyecto.
 
-## 🗄️ Estructura de la Base de Datos
+## Estructura de la Base de Datos
 
 Las tablas se crean automáticamente al iniciar el servidor:
 
@@ -69,7 +69,7 @@ Las tablas se crean automáticamente al iniciar el servidor:
 - `description` (TEXT)
 - `image` (BLOB)
 
-## 🚀 Uso
+## Uso
 
 ### Iniciar el servidor en modo desarrollo:
 
@@ -79,7 +79,7 @@ npm run dev
 
 El servidor se iniciará en `http://localhost:3000`
 
-## 📡 Endpoints de la API
+## Endpoints de la API
 
 ### GET `/menu`
 
@@ -147,7 +147,7 @@ curl -X POST http://localhost:3000/new/bebida \
 - `400`: Campos requeridos faltantes o tipo inválido
 - `500`: Error del servidor
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 pliplines_backend/
@@ -160,7 +160,7 @@ pliplines_backend/
 └── README.md
 ```
 
-## 🛠️ Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 - **Express.js**: Framework web para Node.js
 - **SQLite (better-sqlite3)**: Base de datos embebida
@@ -169,17 +169,13 @@ pliplines_backend/
 - **CORS**: Habilitación de Cross-Origin Resource Sharing
 - **dotenv**: Manejo de variables de entorno
 
-## 📝 Notas
+## Notas
 
 - La base de datos SQLite se crea automáticamente al iniciar el servidor
 - Las imágenes se almacenan como BLOB en la base de datos
 - El caché se invalida automáticamente al crear nuevos elementos
 - El servidor utiliza el puerto 3000 por defecto
 
-## 📄 Licencia
+## Licencia
 
 ISC
-
-## 👤 Autor
-
-cesar.plyed
