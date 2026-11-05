@@ -42,12 +42,16 @@ router.get("/menu", async (req, res) => {
 });
 
 router.post(`/new/:type`, upload.single("image"), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "image is required" });
+  }
+
   const { type } = req.params;
   const { name, price, description } = req.body;
   const image = req.file.buffer;
 
-  if (!name || !price || !description || !image) {
-    return res.status(400).json({ error: "All fields are required" });
+  if (!name || !price || !description) {
+    return res.status(400).json({ error: "name, price, description are required" });
   }
 
   let table;
