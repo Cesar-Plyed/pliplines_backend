@@ -6,11 +6,8 @@
 
 | Metric | Before | After |
 |--------|--------|-------|
-| POST without image | server crash (500) | returns 400 `{error: "image is required"}` |
-| GET /menu response size | 714 KB | TBD (no change expected) |
-| Lint errors (BE) | 4 | 0 |
-| Unit tests (BE) | 0 | 1 (spec-01) |
-| Server uptime after bad POST | 0 (crash) | stable |
+| Unit tests (BE) | 0 | 2 (spec-00, spec-01) |
+| `npm test` time | — | ~0.15 s |
 
 ## Git Diff Summary
 
