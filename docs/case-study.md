@@ -6,6 +6,8 @@
 
 | Metric | Before | After |
 |--------|--------|-------|
+| `POST /new/:type` sin image | server crash (500) | returns 400 `{error: "image is required"}` |
+| `GET /menu` response size | 714 KB | TBD (no change expected) |
 | Unit tests (BE) | 0 | 2 (spec-00, spec-01) |
 | `npm test` time | — | ~0.15 s |
 
