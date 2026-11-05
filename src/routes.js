@@ -1,4 +1,5 @@
 import { query } from "./db.js";
+import cors from "cors";
 import express from "express";
 import multer from "multer";
 import NodeCache from "node-cache";
@@ -8,63 +9,67 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 const cache = new NodeCache({ stdTTL: 600 }); // Cache con TTL de 10 minutos
 
-export const getData = async () => {
-  router.get("/menu", async (req, res) => {
-    const cacheKey = "menuData";
-    const cachedData = cache.get(cacheKey);
+// Crea una instancia Express con las rutas ya montadas.
+export function createApp(app = express()) {
+  app.use(cors());
+  app.use(express.json());
+  app.use(router);
+  return app;
+}
 
-    if (cachedData) {
-      return res.json(cachedData);
-    }
+router.get("/menu", async (req, res) => {
+  const cacheKey = "menuData";
+  const cachedData = cache.get(cacheKey);
 
-    try {
-      const drinksSql = "SELECT * FROM drinks";
-      const foodsSql = "SELECT * FROM food";
+  if (cachedData) {
+    return res.json(cachedData);
+  }
 
-      const [resultDR] = await query(drinksSql);
-      const [resultFD] = await query(foodsSql);
+  try {
+    const drinksSql = "SELECT * FROM drinks";
+    const foodsSql = "SELECT * FROM food";
 
-      const data = { resultDR, resultFD };
-      cache.set(cacheKey, data);
+    const [resultDR] = await query(drinksSql);
+    const [resultFD] = await query(foodsSql);
 
-      return res.json(data);
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
-    }
-  });
-};
+    const data = { resultDR, resultFD };
+    cache.set(cacheKey, data);
 
-export const create = async () => {
-  router.post(`/new/:type`, upload.single("image"), async (req, res) => {
-    const { type } = req.params;
-    const { name, price, description } = req.body;
-    const image = req.file.buffer;
+    return res.json(data);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
 
-    if (!name || !price || !description || !image) {
-      return res.status(400).json({ error: "All fields are required" });
-    }
+router.post(`/new/:type`, upload.single("image"), async (req, res) => {
+  const { type } = req.params;
+  const { name, price, description } = req.body;
+  const image = req.file.buffer;
 
-    let table;
-    if (type === "bebida") {
-      table = "drinks";
-    } else if (type === "comida") {
-      table = "food";
-    } else {
-      return res.status(400).json({ error: "Invalid item type" });
-    }
+  if (!name || !price || !description || !image) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
 
-    try {
-      const sql = `INSERT INTO ${table} (name, price, description, image) VALUES (?, ?, ?, ?)`;
-      const [result] = await query(sql, [name, price, description, image]);
+  let table;
+  if (type === "bebida") {
+    table = "drinks";
+  } else if (type === "comida") {
+    table = "food";
+  } else {
+    return res.status(400).json({ error: "Invalid item type" });
+  }
 
-      // Invalidate cache after creating a new item
-      cache.del("menuData");
+  try {
+    const sql = `INSERT INTO ${table} (name, price, description, image) VALUES (?, ?, ?, ?)`;
+    const [result] = await query(sql, [name, price, description, image]);
 
-      return res.json(result);
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
-    }
-  });
-};
+    // Invalidate cache after creating a new item
+    cache.del("menuData");
+
+    return res.json(result);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
 
 export default router;
